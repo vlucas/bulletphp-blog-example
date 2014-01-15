@@ -1,0 +1,20 @@
+{
+    "name": "BulletPHP Example Blog App",
+    "authors": [
+        {
+            "name": "Vance Lucas",
+            "email": "vance@vancelucas.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "app/src/"
+        }
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "vlucas/bulletphp": "1.x",
+        "vlucas/Spot": "*",
+        "symfony/finder": "*"
+    }
+}
