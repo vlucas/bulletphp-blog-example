@@ -1,1 +1,2 @@
-<p>Index stuff here!</p>
+<h2><?= $post->title ?></h2>
+<?= $post->body ?>

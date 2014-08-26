@@ -1,33 +1,23 @@
 <?php
 // Options from root URL (should expose all available user choices)
-$app->path(array('/', 'index'), function($request) use($app) {
-    $app->get(function($request) use($app) {
+app()->path(array('/', 'index'), function($request) {
+    $this->get(function($request) {
         $data = array(
             'rel' => array('index'),
             'links' => array(
                 array(
-                    'rel' => array('user_list'),
-                    'title' => t('Users'),
-                    'href' => $app->url('/users')
-                ),
-                array(
-                    'rel' => array('event_list'),
-                    'title' => t('Events'),
-                    'href' => $app->url('/events')
-                ),
-                array(
-                    'rel' => array('message_list'),
-                    'title' => t('Messages'),
-                    'href' => $app->url('/messages')
+                    'rel' => array('blog'),
+                    'title' => t('Blog'),
+                    'href' => $this->url('/posts')
                 )
             )
         );
 
-        $app->format('json', function() use($data) {
+        $this->format('json', function() use($data) {
             return $data;
         });
-        $app->format('html', function() use($app, $data) {
-            return $app->template('index', compact('data'));
+        $this->format('html', function() use($data) {
+            return $this->template('index', compact('data'));
         });
     });
 });

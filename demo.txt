@@ -1,0 +1,7 @@
+http GET bulletblog.dev/posts -j
+http OPTIONS bulletblog.dev/posts
+http PUT bulletblog.dev/posts
+http GET bulletblog.dev/posts/1 -j
+http PUT bulletblog.dev/posts/1 < demo/update_post.json
+http GET bulletblog.dev/posts/1 -j
+http DELETE bulletblog.dev/posts/1 -j

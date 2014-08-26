@@ -13,8 +13,9 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "vlucas/bulletphp": "1.x",
-        "vlucas/Spot": "*",
-        "symfony/finder": "*"
+        "vlucas/bulletphp": "*",
+        "vlucas/spot2": "*",
+        "symfony/finder": "*",
+        "vlucas/phpdotenv": "*"
     }
 }

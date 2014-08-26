@@ -1,13 +1,12 @@
 <?php
 use Entity\Post;
 
-$app->resource('posts', function($request) {
+app()->resource('posts', function($request) {
 
     // Index
     $this->get(function($request) {
         // All posts
-        $mapper = $this['spot']->mapper('Entity\Post');
-        $posts = $mapper
+        $posts = $this['mapper']->all('Entity\Post')
             ->where(['status' => 'published'])
             ->order(['date_created' => 'DESC']);
 
@@ -15,11 +14,16 @@ $app->resource('posts', function($request) {
         $page = (int) $request->get('page', 1);
         $posts->page($page, 5);
 
-        $this->format('json', function() use($posts) {
-            return $posts->toArray();
+        $data = [
+            'posts' => $posts,
+            'page' => $page
+        ];
+
+        $this->format('json', function() use($data) {
+            return $data;
         });
-        $this->format('html', function() use($posts, $page) {
-            return $this->template('posts/index', compact('posts', 'page'));
+        $this->format('html', function() use($data) {
+            return $this->template('posts/index', $data);
         });
     });
 
@@ -33,12 +37,11 @@ $app->resource('posts', function($request) {
         $v->rule('required', ['title', 'body']);
         if($v->validate()) {
             // Create new post
-            $mapper = $this['spot']->mapper('Entity\Post');
-            $post = $mapper->create([
+            $post = $this['mapper']->create('Entity\Post', array(
                 'user_id' => $this['user']->id,
                 'title' => $this->helper('format')->format_url($request->title),
                 'body' => $request->body
-            ]);
+            ));
 
             $this->format('json', function() use($post) {
                 return $this->response(201, $post->toArray());
@@ -59,8 +62,7 @@ $app->resource('posts', function($request) {
     // Single record
     $this->param('int', function($request, $id) {
         // Load single record
-        $mapper = $this['spot']->mapper('Entity\Post');
-        $post = $mapper->get($id);
+        $post = $this['mapper']->get('Entity\Post', $id);
         if(!$post) {
             return 404;
         }
@@ -75,41 +77,18 @@ $app->resource('posts', function($request) {
             });
         });
 
-        // Edit post form
+        // Edit post
         $this->path('edit', function($request) use($post) {
             if(!$this['user']->isLoggedIn()) {
                 return 401;
             }
-            $this->format('html', function() use($post) {
-                return $this->template('posts/new', compact('post'));
-            });
-        });
-
-        // Edit post
-        $this->put(function($request) use($post) {
-            if(!$this['user']->isLoggedIn()) {
-                return 401;
-            }
-            $post->data([
-                'status' => $request->get('status', $post->status),
-                'title' => $request->get('title', $post->title),
-                'body' => $request->get('body', $post->body),
-            ]);
-            $this['mapper']->save($post);
-
-            $this->format('json', function($request) use($post) {
-                return $post->toArray();
-            });
-            return $this->response(200)->header('Location', $this->url('/posts/' . $post->id));
         });
 
         // Delete post
-        $this->delete(function($request) use($post) {
+        $this->path('edit', function($request) use($post) {
             if(!$this['user']->isLoggedIn()) {
                 return 401;
             }
-            $mapper = $this['spot']-mapper('Entity\Post')->delete($post);
-            return 204;
         });
 
         // Nested paths

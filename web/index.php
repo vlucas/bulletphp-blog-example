@@ -39,6 +39,11 @@ $routesDir = BULLET_APP_ROOT . '/routes/';
 require $routesDir . 'index.php';
 require $routesDir . 'posts.php';
 
+
+$app->path('test', function() {
+    var_dump($_SERVER);
+});
+
 // CLI routes
 if($request->isCli()) {
     require $routesDir . 'db.php';
