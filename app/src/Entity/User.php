@@ -15,17 +15,17 @@ class User extends Entity
     public static function fields()
     {
         return [
-            'id'            => ['type' => 'int', 'primary' => true, 'serial' => true],
+            'id'            => ['type' => 'integer', 'primary' => true, 'serial' => true],
             'name'          => ['type' => 'string', 'required' => true],
             'email'         => ['type' => 'string', 'required' => true, 'unique' => true],
             'password'      => ['type' => 'string', 'required' => true],
             'is_admin'      => ['type' => 'boolean', 'default' => false],
-            'date_created'  => ['type' => 'datetime', 'default' => new \DateTime()],
-            'date_modified' => ['type' => 'datetime', 'default' => new \DateTime()]
+            'date_created'  => ['type' => 'datetime', 'value' => new \DateTime()],
+            'date_modified' => ['type' => 'datetime', 'value' => new \DateTime()]
         ];
     }
 
-    public function events(EventEmitter $events)
+    public static function events(EventEmitter $events)
     {
         $events->on('beforeSave', function($mapper, $entity) {
             if (isset($this->_dataModified['password']) && ($this->_data['password'] != $this->_dataModified['password'])) {

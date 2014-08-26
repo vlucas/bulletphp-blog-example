@@ -19,7 +19,7 @@ class Post extends Entity
             'status'       => ['type' => 'integer', 'required' => true, 'options' => ['draft', 'published'], 'index' => true],
             'title'        => ['type' => 'string', 'required' => true],
             'body'         => ['type' => 'text', 'required' => true],
-            'date_created' => ['type' => 'datetime', 'default' => new \DateTime()]
+            'date_created' => ['type' => 'datetime', 'value' => new \DateTime()]
         ];
     }
 
