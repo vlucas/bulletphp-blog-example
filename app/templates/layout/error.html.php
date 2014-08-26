@@ -4,7 +4,7 @@ $app = app();
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Skeleton Bullet Application</title>
+  <title>Bullet Blog Example</title>
   <link href="<?= $app->url('/assets/styles/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -14,7 +14,7 @@ $app = app();
     <div class="row">
       <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
         <div id="header">
-          <h1><a href="/">Skeleton Application</a></h1>
+          <h1><a href="/">Bullet Blog Example</a></h1>
         </div>
       </div>
     </div>
